@@ -1,6 +1,7 @@
 package WidowBuilders;
 
 import MyProject.HelperClasses.MessangerClass;
+import MyProject.LoginController;
 import MyProject.MyData.DataCenter;
 import MyProject.User;
 import javafx.event.ActionEvent;
@@ -59,35 +60,23 @@ public class SigninPage{
 
         signInButton.setOnAction(new EventHandler<ActionEvent>(){
             boolean userNam=false,pass=false;
-            boolean result= true;//= UserNameAndPassword(nameField.getText(), passField.getText());
+            boolean result=  UserNameAndPassword(nameField.getText(), passField.getText());
             @Override
             public void handle(ActionEvent event) {
-
             String message="";
             String signinMessage="";
+            boolean canIprocied=true;
 
             //
                 userNam= SignUpClass.textFieldValidator(nameField);
                 if (!userNam) {
                     message+= MessangerClass.USERNAME_ERROR;
-                }
-                if(userNam){
-
-                    if(!result){
-                       message+=MessangerClass.USER_PASSWORD_;
-                    }
-
+                    canIprocied=false;
                 }
                 pass= SignUpClass.textFieldValidator(passField);
                 if (!pass) {
                     message+=MessangerClass.PASSWORD_ERROR;
-                }
-                if(pass){
-
-                    if(!result){
-                        message+=MessangerClass.USER_PASSWORD_;
-                    }
-
+                    canIprocied=false;
                 }
                 if(userNam&&pass){
                     if(!result){
@@ -102,6 +91,7 @@ public class SigninPage{
                 else{
                     error.setText(message);
                     error.setVisible(true);
+                    message="";
                 }
 
                 }
@@ -124,7 +114,8 @@ public class SigninPage{
         String passwordEnterd=passValue;
         boolean match=false;
         ArrayList<User> list;
-        list= DataCenter.mathodToBeCalledWhenSignIn();
+        list= LoginController.authentication();
+        //list= DataCenter.mathodToBeCalledWhenSignIn();
         for(int i=0;i<list.size();i++){
             if(list.get(i).getUserName().equals(userNameEnterd)&& list.get(i).getPassword().equals(passwordEnterd)){
 
